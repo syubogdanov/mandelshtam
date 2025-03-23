@@ -1,0 +1,90 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "mandelshtam"
+version = "0.0.0"
+description = "A set of string similarity algorithms. Levenshtein, Jaro-Winkler, and more."
+license = "MIT"
+authors = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
+maintainers = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
+readme = "README.md"
+homepage = "https://github.com/syubogdanov/mandelshtam"
+repository = "https://github.com/syubogdanov/mandelshtam"
+documentation = "https://mandelshtam.readthedocs.io"
+keywords = [
+    "jaro-winkler",
+    "levenshtein",
+    "python",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: General",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9, <3.14"
+
+[tool.poetry.group.lint]
+optional = true
+
+[tool.poetry.group.lint.dependencies]
+black = "~25.1"
+mypy = "~1.15"
+ruff = "~0.7"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "~8.3"
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.mypy]
+disallow_any_unimported = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+explicit_package_bases = true
+no_implicit_optional = true
+python_version = "3.9"
+strict_equality = true
+warn_unused_ignores = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+ignore = [
+    "D100",     # Missing docstring in public module
+    "D104",     # Missing docstring in public package
+]
+select = ["ALL"]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+lines-between-types = 1
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.pylint]
+max-args = 8
