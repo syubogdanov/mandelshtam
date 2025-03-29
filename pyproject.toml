@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "mandelshtam"
 version = "0.0.0"
-description = "A set of string similarity algorithms. Levenshtein, Jaro-Winkler, and more."
+description = "String similarity algorithms. Levenshtein, Jaro-Winkler, and more."
 license = "MIT"
 authors = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
 maintainers = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
