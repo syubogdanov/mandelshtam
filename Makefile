@@ -18,7 +18,7 @@ publish-test:
 
 
 # Formatters
-format: black clang-format
+format: black
 
 black:
 	$(VENV) black ./$(LIBRARY)/ ./$(TESTS)/
@@ -28,7 +28,7 @@ clang-format:
 
 
 # Linters
-lint: cpplint ruff mypy
+lint: ruff mypy
 
 cpplint:
 	$(VENV) cpplint --linelength=120 ./$(LIBRARY)/**/*.c
