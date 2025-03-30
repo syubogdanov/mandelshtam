@@ -34,27 +34,48 @@
 #include <stdlib.h>
 #include <string.h>
 
-static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
-  PyObject* s1 = NULL;
-  PyObject* s2 = NULL;
+static PyObject* c_levenshtein(PyObject* _, PyObject* args) {
+  PyObject* u1 = NULL;
+  PyObject* u2 = NULL;
 
-  if (!PyArg_ParseTuple(args, "UU", &s1, &s2)) {
+  if (!PyArg_ParseTuple(args, "UU", &u1, &u2)) {
     return NULL;
   }
 
-  Py_ssize_t l1 = PyUnicode_GET_LENGTH(s1);
-  Py_ssize_t l2 = PyUnicode_GET_LENGTH(s2);
+  Py_ssize_t l1 = 0;
+  Py_ssize_t l2 = 0;
+
+  const char* s1 = PyUnicode_AsUTF8AndSize(u1, &l1);
+  const char* s2 = PyUnicode_AsUTF8AndSize(u2, &l2);
+
+  if (!s2 || !s2) {
+    return NULL;
+  }
+
+  if (l1 > l2) {
+    SWAP(const char*, s1, s2);
+    SWAP(Py_ssize_t, l1, l2);
+  }
+
+  /* Strip the common prefix */
+  while (l1 > 0 && *s1 == *s2) {
+    --l1;
+    --l2;
+    ++s1;
+    ++s2;
+  }
+
+  /* Strip the common suffix */
+  while (l1 > 0 && s1[l1 - 1] == s2[l2 - 1]) {
+    --l1;
+    --l2;
+  }
 
   if (l1 == 0) {
     return PyLong_FromSsize_t(l2);
   }
   if (l2 == 0) {
     return PyLong_FromSsize_t(l1);
-  }
-
-  if (l1 > l2) {
-    SWAP(PyObject*, s1, s2);
-    SWAP(Py_ssize_t, l1, l2);
   }
 
   /* Do not use a single buffer to avoid overflow */
@@ -75,15 +96,10 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   for (Py_ssize_t i2 = 0; i2 < l2; i2++) {
     m2[0] = i2 + 1;
 
-    Py_UCS4 v2 = PyUnicode_READ_CHAR(s2, i2);
-
     for (Py_ssize_t i1 = 0; i1 < l1; i1++) {
-      Py_UCS4 v1 = PyUnicode_READ_CHAR(s1, i1);
-
       size_t c1 = m1[i1 + 1] + 1;
       size_t c2 = m2[i1] + 1;
-      size_t c3 = m1[i1] + (size_t)(v1 != v2);
-
+      size_t c3 = m1[i1] + (size_t)(s1[i1] != s2[i2]);
       m2[i1 + 1] = MIN_OF_THREE(c1, c2, c3);
     }
 
@@ -104,7 +120,7 @@ static PyMethodDef module_methods[] = {
     {NULL, NULL, 0, NULL}};
 
 static struct PyModuleDef module_def = {
-    PyModuleDef_HEAD_INIT, "mandelshtam.internal.levenshtein.internal.c",
-    NULL, -1, module_methods};
+    PyModuleDef_HEAD_INIT, "mandelshtam.internal.levenshtein.internal.c", NULL,
+    -1, module_methods};
 
 PyMODINIT_FUNC PyInit_c(void) { return PyModule_Create(&module_def); }
