@@ -38,20 +38,17 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   PyObject* s1 = NULL;
   PyObject* s2 = NULL;
 
-  if (!PyArg_ParseTuple(args, "OO", &s1, &s2)) {
+  if (!PyArg_ParseTuple(args, "UU", &s1, &s2)) {
     return NULL;
   }
 
-  Py_ssize_t l1 = PyObject_Length(s1);
-  Py_ssize_t l2 = PyObject_Length(s2);
+  Py_ssize_t l1 = PyUnicode_GET_LENGTH(s1);
+  Py_ssize_t l2 = PyUnicode_GET_LENGTH(s2);
 
   if (l1 == 0) {
-    /* Returns 'NULL' on errors */
     return PyLong_FromSsize_t(l2);
   }
-
   if (l2 == 0) {
-    /* Returns 'NULL' on errors */
     return PyLong_FromSsize_t(l1);
   }
 
@@ -60,6 +57,7 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
     SWAP(Py_ssize_t, l1, l2);
   }
 
+  /* Do not use a single buffer to avoid overflow */
   size_t* m1 = (size_t*)malloc((l1 + 1) * sizeof(size_t));
   size_t* m2 = (size_t*)malloc((l1 + 1) * sizeof(size_t));
 
@@ -74,52 +72,20 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
     m1[i2] = i2;
   }
 
-  PyObject* v1 = NULL;
-  PyObject* v2 = NULL;
-
   for (Py_ssize_t i2 = 0; i2 < l2; i2++) {
     m2[0] = i2 + 1;
 
-    /* Returns 'NULL' on errors */
-    v2 = PySequence_GetItem(s2, i2);
-
-    if (!v2) {
-      free(m1);
-      free(m2);
-      return NULL;
-    }
+    Py_UCS4 v2 = PyUnicode_READ_CHAR(s2, i2);
 
     for (Py_ssize_t i1 = 0; i1 < l1; i1++) {
-      /* Returns 'NULL' on errors */
-      v1 = PySequence_GetItem(s1, i1);
-
-      if (!v1) {
-        free(m1);
-        free(m2);
-        Py_DECREF(v2);
-        return NULL;
-      }
-
-      /* Returns '-1' on errors - be careful with '!is_substitutable' */
-      int is_substitutable = PyObject_RichCompareBool(v1, v2, Py_EQ);
-
-      Py_DECREF(v1);
-
-      if (is_substitutable < 0) {
-        free(m1);
-        free(m2);
-        Py_DECREF(v2);
-        return NULL;
-      }
+      Py_UCS4 v1 = PyUnicode_READ_CHAR(s1, i1);
 
       size_t c1 = m1[i1 + 1] + 1;
       size_t c2 = m2[i1] + 1;
-      size_t c3 = m1[i1] + ((is_substitutable == 1) ? 0 : 1);
+      size_t c3 = m1[i1] + (size_t)(v1 != v2);
 
       m2[i1 + 1] = MIN_OF_THREE(c1, c2, c3);
     }
-
-    Py_DECREF(v2);
 
     SWAP(size_t*, m1, m2);
   }
@@ -129,7 +95,6 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   free(m1);
   free(m2);
 
-  /* Returns 'NULL' on errors */
   return PyLong_FromSize_t(distance);
 }
 
@@ -139,7 +104,7 @@ static PyMethodDef module_methods[] = {
     {NULL, NULL, 0, NULL}};
 
 static struct PyModuleDef module_def = {
-    PyModuleDef_HEAD_INIT, "mandelshtam.internal.levenshtein.internal.clang",
+    PyModuleDef_HEAD_INIT, "mandelshtam.internal.levenshtein.internal.c",
     NULL, -1, module_methods};
 
-PyMODINIT_FUNC PyInit_clang(void) { return PyModule_Create(&module_def); }
+PyMODINIT_FUNC PyInit_c(void) { return PyModule_Create(&module_def); }

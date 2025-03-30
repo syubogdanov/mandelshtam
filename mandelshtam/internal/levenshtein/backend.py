@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
 from contextlib import suppress
-from typing import TYPE_CHECKING
 
 from mandelshtam.internal.exceptions import NotSupportedBackendError
 from mandelshtam.internal.interfaces.backend import Backend
@@ -10,14 +8,10 @@ from mandelshtam.internal.interfaces.distance import Distance
 from mandelshtam.internal.levenshtein.internal.python import py_levenshtein
 
 
-if TYPE_CHECKING:
-    from mandelshtam.internal.typing import SupportsEq
-
-
 c_levenshtein: Distance | None = None
 
 with suppress(ImportError):
-    from mandelshtam.internal.levenshtein.internal.clang import c_levenshtein
+    from mandelshtam.internal.levenshtein.internal.c import c_levenshtein
 
 
 class Levenshtein(Distance, Backend):
@@ -27,31 +21,27 @@ class Levenshtein(Distance, Backend):
         """Initialize the backend."""
         self._levenshtein = c_levenshtein or py_levenshtein
 
-    def __call__(self, s1: Sequence[SupportsEq], s2: Sequence[SupportsEq]) -> int:
+    def __call__(self, s1: str, s2: str) -> int:
         """Calculate the Levenshtein distance.
 
         Parameters
         ----------
         s1
-            The first string-like object (not necessarily a string).
+            The first string.
         s2
-            The second string-like object (not necessarily a string).
+            The second string.
 
         Returns
         -------
         int
             The distance.
-
-        Notes
-        -----
-        * `Sequence[SupportsEq]` is supported, not only `str`.
         """
-        if not isinstance(s1, Sequence):
-            detail = "'s1' must be 'Sequence[SupportsEq]'"
+        if not isinstance(s1, str):
+            detail = f"'s1' must be 'str', not '{s1.__class__.__name__}'"
             raise TypeError(detail)
 
-        if not isinstance(s2, Sequence):
-            detail = "'s2' must be 'Sequence[SupportsEq]'"
+        if not isinstance(s2, str):
+            detail = f"'s2' must be 'str', not '{s2.__class__.__name__}'"
             raise TypeError(detail)
 
         return self._levenshtein(s1, s2)
