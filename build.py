@@ -8,8 +8,8 @@ from setuptools.extension import Extension
 
 EXTENSIONS = [
     Extension(
-        name="mandelshtam.internal.levenshtein.internal.clang",
-        sources=["mandelshtam/internal/levenshtein/internal/clang.c"],
+        name="mandelshtam.internal.levenshtein.internal.c",
+        sources=["mandelshtam/internal/levenshtein/internal/c.c"],
     ),
 ]
 
