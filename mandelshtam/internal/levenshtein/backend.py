@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Collection
+from collections.abc import Sequence
 from contextlib import suppress
 from typing import TYPE_CHECKING
 
@@ -27,7 +27,7 @@ class Levenshtein(Distance, Backend):
         """Initialize the backend."""
         self._levenshtein = c_levenshtein or py_levenshtein
 
-    def __call__(self, s1: Collection[SupportsEq], s2: Collection[SupportsEq]) -> int:
+    def __call__(self, s1: Sequence[SupportsEq], s2: Sequence[SupportsEq]) -> int:
         """Calculate the Levenshtein distance.
 
         Parameters
@@ -44,14 +44,14 @@ class Levenshtein(Distance, Backend):
 
         Notes
         -----
-        * `Collection[SupportsEq]` is supported, not only `str`.
+        * `Sequence[SupportsEq]` is supported, not only `str`.
         """
-        if not isinstance(s1, Collection):
-            detail = "'s1' must be 'Collection[SupportsEq]'"
+        if not isinstance(s1, Sequence):
+            detail = "'s1' must be 'Sequence[SupportsEq]'"
             raise TypeError(detail)
 
-        if not isinstance(s2, Collection):
-            detail = "'s2' must be 'Collection[SupportsEq]'"
+        if not isinstance(s2, Sequence):
+            detail = "'s2' must be 'Sequence[SupportsEq]'"
             raise TypeError(detail)
 
         return self._levenshtein(s1, s2)

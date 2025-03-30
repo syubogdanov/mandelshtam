@@ -1,4 +1,4 @@
-from collections.abc import Collection
+from collections.abc import Sequence
 from typing import TYPE_CHECKING
 
 
@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from mandelshtam.internal.typing import SupportsEq
 
 
-def py_levenshtein(s1: Collection["SupportsEq"], s2: Collection["SupportsEq"]) -> int:
+def py_levenshtein(s1: Sequence["SupportsEq"], s2: Sequence["SupportsEq"]) -> int:
     """Calculate the Levenshtein distance."""
     l1 = len(s1)
     l2 = len(s2)
