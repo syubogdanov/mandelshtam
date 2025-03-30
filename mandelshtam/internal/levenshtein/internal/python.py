@@ -8,17 +8,18 @@ if TYPE_CHECKING:
 
 def py_levenshtein(s1: Collection["SupportsEq"], s2: Collection["SupportsEq"]) -> int:
     """Calculate the Levenshtein distance."""
-    if not s1:
-        return len(s2)
-
-    if not s2:
-        return len(s1)
-
-    if len(s1) > len(s2):
-        s1, s2 = s2, s1
-
     l1 = len(s1)
     l2 = len(s2)
+
+    if l1 == 0:
+        return len(s2)
+
+    if l2 == 0:
+        return len(s1)
+
+    if l1 > l2:
+        s1, s2 = s2, s1
+        l1, l2 = l2, l1
 
     m1 = list(range(l1 + 1))
     m2 = list(range(l1 + 1))
