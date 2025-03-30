@@ -1,3 +1,7 @@
+# C
+*.dll
+*.so
+
 # Python
 __pycache__/
 .venv/

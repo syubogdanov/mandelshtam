@@ -18,14 +18,20 @@ publish-test:
 
 
 # Formatters
-format: black
+format: black clang-format
 
 black:
 	$(VENV) black ./$(LIBRARY)/ ./$(TESTS)/
 
+clang-format:
+	$(VENV) clang-format -Werror -i --sort-includes --style=Google ./$(LIBRARY)/**/*.c
+
 
 # Linters
-lint: ruff mypy
+lint: cpplint ruff mypy
+
+cpplint:
+	$(VENV) cpplint --linelength=120 ./$(LIBRARY)/**/*.c
 
 mypy:
 	$(VENV) mypy ./$(LIBRARY)/

@@ -46,6 +46,8 @@ python = ">=3.9, <3.14"
 optional = true
 
 [tool.poetry.group.lint.dependencies]
+clang-format = "~20.1"
+cpplint = "~2.0"
 black = "~25.1"
 mypy = "~1.15"
 ruff = "~0.7"
