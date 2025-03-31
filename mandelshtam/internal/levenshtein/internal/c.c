@@ -34,7 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static PyObject* c_levenshtein(PyObject* _, PyObject* args) {
+static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   PyObject* u1 = NULL;
   PyObject* u2 = NULL;
 
@@ -51,6 +51,9 @@ static PyObject* c_levenshtein(PyObject* _, PyObject* args) {
   if (!s2 || !s2) {
     return NULL;
   }
+
+  /* Release the GIL - Python will not be used */
+  PyThreadState *thread = PyEval_SaveThread();
 
   if (l1 > l2) {
     SWAP(const char*, s1, s2);
@@ -72,9 +75,14 @@ static PyObject* c_levenshtein(PyObject* _, PyObject* args) {
   }
 
   if (l1 == 0) {
+    /* Acquire the GIL again */
+    PyEval_RestoreThread(thread);
     return PyLong_FromSsize_t(l2);
   }
+
   if (l2 == 0) {
+    /* Acquire the GIL again */
+    PyEval_RestoreThread(thread);
     return PyLong_FromSsize_t(l1);
   }
 
@@ -85,6 +93,10 @@ static PyObject* c_levenshtein(PyObject* _, PyObject* args) {
   if (!m1 || !m2) {
     free(m1);
     free(m2);
+
+    /* Acquire the GIL again */
+    PyEval_RestoreThread(thread);
+
     PyErr_NoMemory();
     return NULL;
   }
@@ -110,6 +122,9 @@ static PyObject* c_levenshtein(PyObject* _, PyObject* args) {
 
   free(m1);
   free(m2);
+
+  /* Acquire the GIL again */
+  PyEval_RestoreThread(thread);
 
   return PyLong_FromSize_t(distance);
 }
