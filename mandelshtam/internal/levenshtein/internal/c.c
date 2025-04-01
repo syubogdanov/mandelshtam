@@ -53,7 +53,7 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   }
 
   /* Release the GIL - Python will not be used */
-  PyThreadState *thread = PyEval_SaveThread();
+  PyThreadState* thread = PyEval_SaveThread();
 
   if (l1 > l2) {
     SWAP(const char*, s1, s2);
