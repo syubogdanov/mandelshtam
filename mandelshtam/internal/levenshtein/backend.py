@@ -5,13 +5,13 @@ from contextlib import suppress
 from mandelshtam.internal.exceptions import NotSupportedBackendError
 from mandelshtam.internal.interfaces.backend import Backend
 from mandelshtam.internal.interfaces.distance import Distance
-from mandelshtam.internal.levenshtein.internal.python import py_levenshtein
+from mandelshtam.internal.levenshtein.python import py_levenshtein
 
 
 c_levenshtein: Distance | None = None
 
 with suppress(ImportError):
-    from mandelshtam.internal.levenshtein.internal.c import c_levenshtein
+    from mandelshtam.internal.levenshtein.clang import c_levenshtein
 
 
 class Levenshtein(Distance, Backend):

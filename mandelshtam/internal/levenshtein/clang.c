@@ -135,7 +135,7 @@ static PyMethodDef module_methods[] = {
     {NULL, NULL, 0, NULL}};
 
 static struct PyModuleDef module_def = {
-    PyModuleDef_HEAD_INIT, "mandelshtam.internal.levenshtein.internal.c", NULL,
+    PyModuleDef_HEAD_INIT, "mandelshtam.internal.levenshtein.clang", NULL,
     -1, module_methods};
 
-PyMODINIT_FUNC PyInit_c(void) { return PyModule_Create(&module_def); }
+PyMODINIT_FUNC PyInit_clang(void) { return PyModule_Create(&module_def); }
