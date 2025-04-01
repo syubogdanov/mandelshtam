@@ -28,10 +28,10 @@ clang-format:
 
 
 # Linters
-lint: ruff mypy
+lint: cpplint ruff mypy
 
 cpplint:
-	$(VENV) cpplint --linelength=120 ./$(LIBRARY)/**/*.c
+	$(VENV) cpplint --linelength=120 --recursive ./$(LIBRARY)/
 
 mypy:
 	$(VENV) mypy ./$(LIBRARY)/
