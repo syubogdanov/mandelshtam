@@ -101,8 +101,8 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
     return NULL;
   }
 
-  for (Py_ssize_t i2 = 0; i2 <= l2; i2++) {
-    m1[i2] = i2;
+  for (Py_ssize_t i1 = 0; i1 <= l1; i1++) {
+    m1[i1] = i1;
   }
 
   for (Py_ssize_t i2 = 0; i2 < l2; i2++) {
