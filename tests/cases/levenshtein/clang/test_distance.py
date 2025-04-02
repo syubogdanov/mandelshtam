@@ -9,8 +9,8 @@ CSV = BASEDIR / "tests" / "data" / "levenshtein" / "distance.csv"
 
 
 @pytest.mark.skipif(not levenshtein.has_c(), reason="The C-backend is not available.")
-class TestLevenshteinDistance:
-    """Test the Levenshtein distance."""
+class TestDistance:
+    """Test the distance."""
 
     @pytest.fixture(autouse=True)
     def switch_to_c(self) -> None:

@@ -8,8 +8,8 @@ from tests.utils.basedir import BASEDIR
 CSV = BASEDIR / "tests" / "data" / "levenshtein" / "distance.csv"
 
 
-class TestLevenshteinDistance:
-    """Test the Levenshtein distance."""
+class TestDistance:
+    """Test the distance."""
 
     @pytest.fixture(autouse=True)
     def switch_to_python(self) -> None:
