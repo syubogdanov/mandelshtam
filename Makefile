@@ -34,7 +34,7 @@ cpplint:
 	$(VENV) cpplint --recursive ./$(LIBRARY)/
 
 mypy:
-	$(VENV) mypy ./$(LIBRARY)/
+	$(VENV) mypy ./$(LIBRARY)/ ./$(TESTS)/
 
 ruff:
 	$(VENV) ruff check ./$(LIBRARY)/ ./$(TESTS)/
