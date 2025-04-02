@@ -5,8 +5,8 @@ from tests.basedir import BASEDIR
 from tests.loaders import distance_from_csv
 
 
-ASCII_CSV = BASEDIR / "tests" / "data" / "levenshtein" / "distance-ascii.csv"
-UTF8_CSV = BASEDIR / "tests" / "data" / "levenshtein" / "distance-utf8.csv"
+ASCII_CSV = BASEDIR / "tests" / "data" / "levenshtein" / "distance" / "ascii.csv"
+UTF8_CSV = BASEDIR / "tests" / "data" / "levenshtein" / "distance" / "utf8.csv"
 
 
 class TestDistance:
