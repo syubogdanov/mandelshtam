@@ -8,7 +8,7 @@ from tests.basedir import BASEDIR
 from tests.loaders import performance_from_csv
 
 
-CSV = BASEDIR / "tests" / "data" / "levenshtein" / "clang-performance.csv"
+CSV = BASEDIR / "tests" / "data" / "levenshtein" / "performance-clang.csv"
 
 
 @pytest.mark.skipif(not levenshtein.has_c(), reason="The C-backend is not available.")
