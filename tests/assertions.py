@@ -1,7 +1,7 @@
 from multiprocessing import Process
 
 
-def raise_if_slow(process: Process, seconds: float) -> None:
+def assert_faster_than(process: Process, *, seconds: float) -> None:
     """Run the process and raise an exception if it takes too long."""
     process.run()
     process.join(seconds)

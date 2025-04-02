@@ -1,8 +1,8 @@
 import pytest
 
 from mandelshtam import levenshtein
-from tests.utils import csv
-from tests.utils.basedir import BASEDIR
+from tests.basedir import BASEDIR
+from tests.loaders import distance_from_csv
 
 
 CSV = BASEDIR / "tests" / "data" / "levenshtein" / "distance.csv"
@@ -17,7 +17,7 @@ class TestDistance:
         """Switch to the *C*-backend."""
         levenshtein.switch_to_c()
 
-    @pytest.mark.parametrize(("s1", "s2", "distance"), csv.load(CSV))
-    def test__distance(self, s1: str, s2: str, distance: str) -> None:
+    @pytest.mark.parametrize(("s1", "s2", "distance"), distance_from_csv(CSV))
+    def test__distance(self, s1: str, s2: str, distance: int) -> None:
         """Test the distance between two strings."""
-        assert levenshtein(s1, s2) == int(distance)
+        assert levenshtein(s1, s2) == distance

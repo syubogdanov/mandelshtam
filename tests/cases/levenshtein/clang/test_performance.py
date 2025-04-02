@@ -3,8 +3,9 @@ from multiprocessing import Process
 import pytest
 
 from mandelshtam import levenshtein
-from tests.utils import assertions, books, csv
-from tests.utils.basedir import BASEDIR
+from tests.assertions import assert_faster_than
+from tests.basedir import BASEDIR
+from tests.loaders import performance_from_csv
 
 
 CSV = BASEDIR / "tests" / "data" / "levenshtein" / "clang-performance.csv"
@@ -19,12 +20,9 @@ class TestPerformance:
         """Switch to the *C*-backend."""
         levenshtein.switch_to_c()
 
-    @pytest.mark.parametrize(("b1", "b2", "seconds"), csv.load(CSV))
-    def test__performance(self, b1: str, b2: str, seconds: str) -> None:
+    @pytest.mark.parametrize(("s1", "s2", "timeout"), performance_from_csv(CSV))
+    def test__performance(self, s1: str, s2: str, timeout: float) -> None:
         """Test the performance."""
-        s1 = books.load(b1)
-        s2 = books.load(b2)
-
         process = Process(target=levenshtein, args=(s1, s2))
 
-        assertions.raise_if_slow(process, float(seconds))
+        assert_faster_than(process, seconds=timeout)
