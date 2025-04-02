@@ -45,10 +45,12 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   Py_ssize_t l1 = 0;
   Py_ssize_t l2 = 0;
 
-  const char* s1 = PyUnicode_AsUTF8AndSize(u1, &l1);
-  const char* s2 = PyUnicode_AsUTF8AndSize(u2, &l2);
+  wchar_t* w1 = PyUnicode_AsWideCharString(u1, &l1);
+  wchar_t* w2 = PyUnicode_AsWideCharString(u2, &l2);
 
-  if (!s2 || !s2) {
+  if (!w1 || !w2) {
+    PyMem_Free(w1);
+    PyMem_Free(w2);
     return NULL;
   }
 
@@ -56,9 +58,12 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   PyThreadState* thread = PyEval_SaveThread();
 
   if (l1 > l2) {
-    SWAP(const char*, s1, s2);
+    SWAP(wchar_t*, w1, w2);
     SWAP(Py_ssize_t, l1, l2);
   }
+
+  wchar_t* s1 = w1;
+  wchar_t* s2 = w2;
 
   /* Strip the common prefix */
   while (l1 > 0 && *s1 == *s2) {
@@ -77,12 +82,20 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   if (l1 == 0) {
     /* Acquire the GIL again */
     PyEval_RestoreThread(thread);
+
+    PyMem_Free(w1);
+    PyMem_Free(w2);
+
     return PyLong_FromSsize_t(l2);
   }
 
   if (l2 == 0) {
     /* Acquire the GIL again */
     PyEval_RestoreThread(thread);
+
+    PyMem_Free(w1);
+    PyMem_Free(w2);
+
     return PyLong_FromSsize_t(l1);
   }
 
@@ -96,6 +109,9 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
 
     /* Acquire the GIL again */
     PyEval_RestoreThread(thread);
+
+    PyMem_Free(w1);
+    PyMem_Free(w2);
 
     PyErr_NoMemory();
     return NULL;
@@ -125,6 +141,9 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
 
   /* Acquire the GIL again */
   PyEval_RestoreThread(thread);
+
+  PyMem_Free(w1);
+  PyMem_Free(w2);
 
   return PyLong_FromSize_t(distance);
 }
