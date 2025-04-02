@@ -11,8 +11,8 @@
 ## Key Features
 
 * Performance of *C* extensions;
-* Almost dependency-free;
-* Supports *Python 3.9+*.
+* Supports *Python 3.9+*;
+* Dependency-free.
 
 ## Getting Started
 
