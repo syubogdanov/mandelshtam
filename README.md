@@ -26,23 +26,6 @@ pip install mandelshtam
 
 ### Usage
 
-#### Jaro-Winkler
-
-For more, see the [documentation][docs/jaro-winkler].
-
-```python
-from math import isclose
-
-from mandelshtam import jaro_winkler
-
-s1 = "mandelshtam"
-s2 = "jaro-winkler"
-
-score = jaro_winkler(s1, s2)
-
-assert isclose(score, 0.5075, abs_tol=0.01)
-```
-
 #### Levenshtein
 
 For more, see the [documentation][docs/levenshtein].
@@ -62,7 +45,6 @@ MIT License, Copyright (c) 2025 Sergei Y. Bogdanov. See [LICENSE][github/license
 
 <!-- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- -->
 
-[docs/jaro-winkler]: https://mandelshtam.readthedocs.io/en/latest/jaro-winkler.html
 [docs/levenshtein]: https://mandelshtam.readthedocs.io/en/latest/levenshtein.html
 
 [github/license]: https://github.com/syubogdanov/mandelshtam/tree/main/LICENSE

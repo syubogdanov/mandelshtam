@@ -9,7 +9,7 @@ script = "build.py"
 [tool.poetry]
 name = "mandelshtam"
 version = "0.0.0"
-description = "String similarity algorithms. Levenshtein, Jaro-Winkler, and more."
+description = "String similarity algorithms. Levenshtein, and more."
 license = "MIT"
 authors = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
 maintainers = ["Sergei Y. Bogdanov <syubogdanov@outlook.com>"]
@@ -18,9 +18,9 @@ homepage = "https://github.com/syubogdanov/mandelshtam"
 repository = "https://github.com/syubogdanov/mandelshtam"
 documentation = "https://mandelshtam.readthedocs.io"
 keywords = [
-    "jaro-winkler",
     "levenshtein",
     "python",
+    "string",
 ]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
