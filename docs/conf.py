@@ -6,7 +6,7 @@ copyright = "2025, Sergei Y. Bogdanov"
 html_theme = "alabaster"
 
 html_theme_options = {
-    "description": "String similarity algorithms for Python.",
+    "description": "String similarity algorithms for Python. Levenshtein, and more.",
     "github_user": "syubogdanov",
     "github_repo": "mandelshtam",
     "github_type": "star",

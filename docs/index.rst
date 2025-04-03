@@ -49,6 +49,7 @@ Documentation
 .. toctree::
     :maxdepth: 1
 
+    exceptions
     levenshtein
 
 License
