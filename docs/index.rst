@@ -19,7 +19,7 @@ Installation
 ~~~~~~~~~~~~
 
 The library is available as
-```mandelshtam`` <https://pypi.org/project/mandelshtam/>`__ on PyPI:
+`mandelshtam <https://pypi.org/project/mandelshtam/>`__ on PyPI:
 
 .. code:: shell
 
