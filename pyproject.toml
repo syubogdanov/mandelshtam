@@ -74,6 +74,9 @@ python_version = "3.9"
 strict_equality = true
 warn_unused_ignores = true
 
+[tool.pytest.ini_options]
+markers = ["performance", "smoke"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py39"

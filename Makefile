@@ -41,7 +41,10 @@ ruff:
 
 
 # Tests
-test: unit-tests
+test: smoke-tests performance-tests
 
-unit-tests:
-	$(VENV) pytest ./$(TESTS)/
+performance-tests:
+	$(VENV) pytest -m performance ./$(TESTS)/
+
+smoke-tests:
+	$(VENV) pytest -m smoke ./$(TESTS)/

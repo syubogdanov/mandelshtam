@@ -20,6 +20,7 @@ class TestPerformance:
         """Switch to the *C*-backend."""
         levenshtein.switch_to_c()
 
+    @pytest.mark.performance
     @pytest.mark.parametrize(("s1", "s2", "timeout"), performance_from_csv(CSV))
     def test__performance(self, s1: str, s2: str, timeout: float) -> None:
         """Test the performance."""
