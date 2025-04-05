@@ -85,14 +85,9 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
     return PyLong_FromSsize_t(l1);
   }
 
-  /* Do not use a single buffer to avoid overflow */
-  size_t* m1 = (size_t*)malloc((l1 + 1) * sizeof(size_t));
-  size_t* m2 = (size_t*)malloc((l1 + 1) * sizeof(size_t));
+  size_t* previousRow = (size_t*)calloc(l1, sizeof(size_t));
 
-  if (!m1 || !m2) {
-    free(m1);
-    free(m2);
-
+  if (!previousRow) {
     /* Acquire the GIL again */
     PyEval_RestoreThread(thread);
 
@@ -103,26 +98,28 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
     return NULL;
   }
 
-  for (Py_ssize_t i1 = 0; i1 <= l1; i1++) {
-    m1[i1] = i1;
+  for (Py_ssize_t i1 = 0; i1 < l1; ++i1) {
+    previousRow[i1] = i1 + 1;
   }
 
-  for (Py_ssize_t i2 = 0; i2 < l2; i2++) {
-    m2[0] = i2 + 1;
+  for (Py_ssize_t i2 = 0; i2 < l2; ++i2) {
+    size_t diagonalDistance = i2;
+    size_t leftDistance = i2 + 1;
 
-    for (Py_ssize_t i1 = 0; i1 < l1; i1++) {
-      size_t insertOrDelete = MIN(m1[i1 + 1], m2[i1]) + 1;
-      size_t maybeEdit = m1[i1] + (size_t)(s1[i1] != s2[i2]);
-      m2[i1 + 1] = MIN(insertOrDelete, maybeEdit);
+    for (Py_ssize_t i1 = 0; i1 < l1; ++i1) {
+      size_t insertOrDelete = MIN(leftDistance, previousRow[i1]) + 1;
+      size_t maybeEdit = diagonalDistance + (size_t)(s1[i1] != s2[i2]);
+
+      leftDistance = MIN(insertOrDelete, maybeEdit);
+
+			diagonalDistance = previousRow[i1];
+			previousRow[i1] = leftDistance;
     }
-
-    SWAP(m1, m2);
   }
 
-  size_t distance = m1[l1];
+  size_t distance = previousRow[l1 - 1];
 
-  free(m1);
-  free(m2);
+  free(previousRow);
 
   /* Acquire the GIL again */
   PyEval_RestoreThread(thread);
