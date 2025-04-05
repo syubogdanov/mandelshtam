@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Sergei Y. Bogdanov
+
+
 def py_levenshtein(s1: str, s2: str) -> int:
     """Calculate the Levenshtein distance."""
     l1 = len(s1)

@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Sergei Y. Bogdanov
+
 from __future__ import annotations
 
 from contextlib import suppress

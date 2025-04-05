@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Sergei Y. Bogdanov
+
 from abc import abstractmethod
 from typing import Protocol, runtime_checkable
 

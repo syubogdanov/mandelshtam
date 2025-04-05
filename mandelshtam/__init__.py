@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2025 Sergei Y. Bogdanov
+
 from mandelshtam.internal.exceptions import BackendError, MandelshtamError, NotSupportedBackendError
 from mandelshtam.internal.levenshtein.backend import Levenshtein as _Levenshtein
 
