@@ -7,9 +7,9 @@
 
 <p align="center">
   <picture align="center">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/syubogdanov/mandelshtam/tree/main/images/performance-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/syubogdanov/mandelshtam/tree/main/images/performance-light.svg">
-    <img alt="Shows a bar chart with benchmark results." src="https://github.com/syubogdanov/mandelshtam/tree/main/images/performance-dark.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/syubogdanov/mandelshtam/b352f038ef74fcaf925ae932521963f68d5b760c/images/performance-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/syubogdanov/mandelshtam/b352f038ef74fcaf925ae932521963f68d5b760c/images/performance-light.svg">
+    <img alt="Shows a bar chart with benchmark results." src="https://raw.githubusercontent.com/syubogdanov/mandelshtam/b352f038ef74fcaf925ae932521963f68d5b760c/images/performance-dark.svg">
   </picture>
 </p>
 
