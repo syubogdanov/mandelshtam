@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <i>Levenshtein: "The Call of Cthulhu" vs "Metamorphosis".</i>
+  <i>Levenshtein: "The Call of Cthulhu" vs "The Metamorphosis".</i>
 </p>
 
 ## Key Features
