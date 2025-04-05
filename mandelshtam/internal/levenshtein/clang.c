@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Sergei Y. Bogdanov
 
-#define MIN_OF_THREE(a, b, c) \
-  ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
+#ifndef MIN
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#endif
 
-#define SWAP(T, a, b) \
-  do {                \
-    T tmp = a;        \
-    a = b;            \
-    b = tmp;          \
-  } while (0)
+#ifndef SWAP
+#define SWAP(a, b)      \
+  {                     \
+    typeof(a) _tmp = a; \
+    a = b;              \
+    b = _tmp;           \
+  }
+#endif
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -41,8 +44,8 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   PyThreadState* thread = PyEval_SaveThread();
 
   if (l1 > l2) {
-    SWAP(wchar_t*, w1, w2);
-    SWAP(Py_ssize_t, l1, l2);
+    SWAP(w1, w2);
+    SWAP(l1, l2);
   }
 
   wchar_t* s1 = w1;
@@ -108,13 +111,12 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
     m2[0] = i2 + 1;
 
     for (Py_ssize_t i1 = 0; i1 < l1; i1++) {
-      size_t c1 = m1[i1 + 1] + 1;
-      size_t c2 = m2[i1] + 1;
-      size_t c3 = m1[i1] + (size_t)(s1[i1] != s2[i2]);
-      m2[i1 + 1] = MIN_OF_THREE(c1, c2, c3);
+      size_t insertOrDelete = MIN(m1[i1 + 1], m2[i1]) + 1;
+      size_t maybeSubstite = m1[i1] + (size_t)(s1[i1] != s2[i2]);
+      m2[i1 + 1] = MIN(insertOrDelete, maybeSubstite);
     }
 
-    SWAP(size_t*, m1, m2);
+    SWAP(m1, m2);
   }
 
   size_t distance = m1[l1];
