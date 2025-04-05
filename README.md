@@ -20,7 +20,7 @@
 ## Key Features
 
 * Performance of *C* extensions;
-* Dependency-free & GIL-free;
+* GIL-free & Dependency-free;
 * Supports Python 3.9+.
 
 ## Getting Started
