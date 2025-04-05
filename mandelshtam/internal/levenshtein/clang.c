@@ -107,13 +107,16 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
     size_t leftDistance = i2 + 1;
 
     for (Py_ssize_t i1 = 0; i1 < l1; ++i1) {
-      size_t insertOrDelete = MIN(leftDistance, previousRow[i1]) + 1;
-      size_t maybeEdit = diagonalDistance + (size_t)(s1[i1] != s2[i2]);
+      size_t upperDistance = previousRow[i1];
+
+      bool isEditable = (s1[i1] != s2[i2]);
+      size_t maybeEdit = diagonalDistance + isEditable;
+      size_t insertOrDelete = MIN(leftDistance, upperDistance) + 1;
 
       leftDistance = MIN(insertOrDelete, maybeEdit);
 
-			diagonalDistance = previousRow[i1];
-			previousRow[i1] = leftDistance;
+      diagonalDistance = upperDistance;
+      previousRow[i1] = leftDistance;
     }
   }
 
