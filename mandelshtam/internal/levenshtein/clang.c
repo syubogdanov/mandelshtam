@@ -112,8 +112,8 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
 
     for (Py_ssize_t i1 = 0; i1 < l1; i1++) {
       size_t insertOrDelete = MIN(m1[i1 + 1], m2[i1]) + 1;
-      size_t maybeSubstite = m1[i1] + (size_t)(s1[i1] != s2[i2]);
-      m2[i1 + 1] = MIN(insertOrDelete, maybeSubstite);
+      size_t maybeEdit = m1[i1] + (size_t)(s1[i1] != s2[i2]);
+      m2[i1 + 1] = MIN(insertOrDelete, maybeEdit);
     }
 
     SWAP(m1, m2);
