@@ -6,11 +6,11 @@
 #endif
 
 #ifndef SWAP
-#define SWAP(a, b)      \
-  {                     \
-    typeof(a) _tmp = a; \
-    a = b;              \
-    b = _tmp;           \
+#define SWAP(T, a, b) \
+  {                   \
+    T _tmp = a;       \
+    a = b;            \
+    b = _tmp;         \
   }
 #endif
 
@@ -45,8 +45,8 @@ static PyObject* c_levenshtein(PyObject* self, PyObject* args) {
   PyThreadState* thread = PyEval_SaveThread();
 
   if (l1 > l2) {
-    SWAP(w1, w2);
-    SWAP(l1, l2);
+    SWAP(wchar_t*, w1, w2);
+    SWAP(Py_ssize_t, l1, l2);
   }
 
   wchar_t* s1 = w1;
