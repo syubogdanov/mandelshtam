@@ -5,8 +5,17 @@
 [![License][shields/pypi/license]][github/license]
 [![Python Version][shields/python/version]][pypi/homepage]
 
-> [!WARNING]
-> The library is in the pre-alpha stage. Bugs may exist!
+<p align="center">
+  <picture align="center">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/syubogdanov/mandelshtam/tree/main/images/performance-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/syubogdanov/mandelshtam/tree/main/images/performance-light.svg">
+    <img alt="Shows a bar chart with benchmark results." src="https://github.com/syubogdanov/mandelshtam/tree/main/images/performance-dark.svg">
+  </picture>
+</p>
+
+<p align="center">
+  <i>Levenshtein: "The Call of Cthulhu" vs "Metamorphosis".</i>
+</p>
 
 ## Key Features
 
